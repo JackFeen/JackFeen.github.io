@@ -2,7 +2,7 @@
 
 
 
-### Education  
+## Education  
 **University of Texas, McCombs School of Business**      Spring 2025  
 MS Business Analytics
 
@@ -11,12 +11,12 @@ BS Business Analytics - _Finance and Risk Analytics_                 GPA: 3.95
 
 
 
-### Projects  
+## Projects  
 
 
 
 
-### Work Experience  
+## Work Experience  
 **Lennox International**  Summer 2024  
 _eCommerce Merchandising Intern_  
 •	Enhanced data integrity for 10,000+ products across company platforms by pinpointing critical errors in the SAP Datahub, ensuring accurate synchronization of material status between SAP ECC and SAP Hybris  
