@@ -1,8 +1,8 @@
-# Data Scientist
+# Professional Portfolio
 
-### **Technical Skills:** Python, Java, SQL, Excel, Tableau, Cognos, SAP, Azure DevOps, Microsoft Office Suite  
-### **Certificates:** IBM Data Analyst Professional Certificate  
-### **Relevant Courses:** Big Data, Web Analytics, Data Visualization, Object Oriented Programming with Python, Business Analytics  
+#### **Technical Skills:** Python, Java, SQL, Excel, Tableau, Cognos, SAP, Azure DevOps, Microsoft Office Suite  
+#### **Certificates:** IBM Data Analyst Professional Certificate  
+#### **Relevant Courses:** Big Data, Web Analytics, Data Visualization, Object Oriented Programming with Python, Business Analytics  
 
 
 ## Education  
