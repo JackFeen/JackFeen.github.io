@@ -25,17 +25,17 @@ Transformed and analyzed Google Trends data on mental health-related search term
 _Sustainability Speaker Series_  
 The semiannual Sustainable Speaker Series unites industry leaders from various sectors to explore sustainability as a career path. The most recent event featured speakers and panelists from _Toyota, PepsiCo, Ericsson, Lennox,_ and local non-profit _One Earth One Chance_, ultimately attracting over 100 students, faculty, and professionals. It highlighted the importance of sustainability in business and provided valuable networking opportunities.  
 <br>  
-![](https://JackFeen.github.io/assets/Untitled design (1).png)  
+![Photo credits: Austin Boyd Boisvert, abglobalized.com](https://JackFeen.github.io/assets/Untitled design (1).png)  
 <br>  
 
 ## Work Experience
-**Lennox International**  (_Summer 2024_)
-_eCommerce Merchandising Intern_  
+**Lennox International**  (_Summer 2024_)  
+_eCommerce Merchandising Intern_
 -	Enhanced data integrity for 10,000+ products across company platforms by pinpointing critical errors in the SAP Datahub, ensuring accurate synchronization of material status between SAP ECC and SAP Hybris  
 -	Implemented a streamlined system for clearance center updates, resolving key errors and increasing process efficiency by over 300% by leveraging optimized data sources and designing an efficient Excel template  
 -	Established an Amazon Brand Registry account, which removed 10+ counterfeit product listings by authenticating Lennox trademarks with Amazon and registering our authorized resellers under our Brand Registry for 3rd party monitoring  
 
-**Bocal Majority**  (_Fall 2022 - Spring 2024_)
+**Bocal Majority**  (_Fall 2022 - Spring 2024_)  
 _Merchandising Coordinator_
 -	Ensured proper tracking for over $100,000 of store merchandise by coordinating an inventory audit, validating counts of goods under a new system that effectively deals with work-in-progress inventory  
 -	Facilitated booth setup and managed shipping logistics for bassoons during the Midwest Clinic in Chicago  
