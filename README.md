@@ -14,9 +14,11 @@
 ## Projects/Work Sample
 ### ‘Future Proof Fleet’ Big Data Case Study
 Identified 10 truck drivers in need of further training by developing a risk factor model, considering unsafe events by our fleet and external risks related to geolocational safety statistics. Utilized Python libraries such as Pandas to prepare internal and external datasets before uploading them to Apache Hadoop to be processed in Impala and visualized in Tableau via a JDBC driver.  
+[More from this project!](https://github.com/JackFeen/Projects/tree/main/FutureProofFleet)
 
 ### Anxiety Response to COVID-19 by Political Affiliation
 Transformed and analyzed Google Trends data on mental health-related search terms, CDC COVID-19 datasets, and MIT-curated 2020 U.S. election results in data to classify states by political affiliation, identifying correlations between political leaning and mental health trends in response to changes in levels of new COVID-19 cases during the pandemic.  
+[More from this project!](https://github.com/JackFeen/Projects/tree/main/COVID%20Anxiety%20Trends)
   
 <br>  
 
@@ -26,6 +28,7 @@ _Sustainability Speaker Series_
 The semiannual Sustainable Speaker Series unites industry leaders from various sectors to explore sustainability as a career path. The most recent event featured speakers and panelists from _Toyota, PepsiCo, Ericsson, Lennox,_ and local non-profit _One Earth One Chance_, ultimately attracting over 100 students, faculty, and professionals. It highlighted the importance of sustainability in business and provided valuable networking opportunities.  
 <br>  
 ![Photo credits: Austin Boyd Boisvert, abglobalized.com](https://JackFeen.github.io/assets/Untitled design (1).png)  
+[Stay up to date with Society of Sustainable Business on LinkedIn!](https://www.linkedin.com/company/ssbutd/)
 <br>  
 
 ## Work Experience
