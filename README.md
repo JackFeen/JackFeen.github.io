@@ -14,12 +14,18 @@
 ## Projects/Work Sample
 ### ‘Future Proof Fleet’ Big Data Case Study
 Identified 10 truck drivers in need of further training by developing a risk factor model, considering unsafe events by our fleet and external risks related to geolocational safety statistics. Utilized Python libraries such as Pandas to prepare internal and external datasets before uploading them to Apache Hadoop to be processed in Impala and visualized in Tableau via a JDBC driver.  
+
+<br>
+
 ![A bar chart showing the risk factor by driverId](https://JackFeen.github.io/assets/Screenshot 2024-12-05 at 2.43.42 AM.png)  
 [More from this project!](https://github.com/JackFeen/Projects/tree/main/FutureProofFleet)
 
 ### Anxiety Response to COVID-19 by Political Affiliation
 Transformed and analyzed Google Trends data on mental health-related search terms, CDC COVID-19 datasets, and MIT-curated 2020 U.S. election results in data to classify states by political affiliation, identifying correlations between political leaning and mental health trends in response to changes in levels of new COVID-19 cases during the pandemic. 
 As part of our Data Visualization class, we were encouraged to explore creative ways to use animation in our visualizations, including animated line charts and interactive dashboards.  
+
+<br>
+
 ![A gif showing the number of new COVID-19 cases and average anxiety by political affiliation between 2021 and 2023](https://JackFeen.github.io/assets/ezgif-5-4dfaa3ad40.gif)  
 [More from this project!](https://github.com/JackFeen/Projects/tree/main/COVID%20Anxiety%20Trends)
   
