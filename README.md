@@ -17,7 +17,7 @@ Identified 10 truck drivers in need of further training by developing a risk fac
 
 <br>
 
-![A bar chart showing the risk factor by driverId](https://JackFeen.github.io/assets/Screenshot 2024-12-05 at 2.43.42 AM.png)  
+![A slide showing the scoring for driver risk factor](https://JackFeen.github.io/assets/BUAN 6346 Group 1 Final.png)  
 [More from this project!](https://github.com/JackFeen/Projects/tree/main/FutureProofFleet)
 
 ### Anxiety Response to COVID-19 by Political Affiliation
