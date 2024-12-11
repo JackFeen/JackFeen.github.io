@@ -21,7 +21,7 @@ Identified 10 truck drivers in need of further training by developing a risk fac
 [More from this project!](https://github.com/JackFeen/Projects/tree/main/FutureProofFleet)
 
 ### Anxiety Response to COVID-19 by Political Affiliation
-Transformed and analyzed Google Trends data on mental health-related search terms, CDC COVID-19 datasets, and MIT-curated 2020 U.S. election results in data to classify states by political affiliation, identifying correlations between political leaning and mental health trends in response to changes in levels of new COVID-19 cases during the pandemic. 
+Transformed and analyzed Google Trends data on mental health-related search terms, CDC COVID-19 datasets, and MIT-curated 2020 U.S. election results in data to classify states by political affiliation, identifying correlations between political leaning and mental health trends in response to changes in levels of new COVID-19 cases during the pandemic.  
 As part of our Data Visualization class, we were encouraged to explore creative ways to use animation in our visualizations, including animated line charts and interactive dashboards.  
 
 <br>
@@ -39,8 +39,10 @@ The semiannual Sustainable Speaker Series unites industry leaders from various s
 As president, I led the successful execution of this event, overseeing corporate outreach, student marketing efforts, and day-of logistics, learning a lot along the way.  
 
 <br>  
+
 ![Photo credits: Austin Boyd Boisvert, abglobalized.com](https://JackFeen.github.io/assets/Untitled design (1).png)  
 [Stay up to date with Society of Sustainable Business on LinkedIn!](https://www.linkedin.com/company/ssbutd/)
+
 <br>  
 
 ## Work Experience
