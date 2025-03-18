@@ -13,7 +13,7 @@
 
 ## Projects/Work Sample
 ### ‘Future Proof Fleet’ Big Data Case Study
-Identified 10 truck drivers in need of further training by developing a risk factor model, considering unsafe events by our fleet and external risks related to geolocational safety statistics. Utilized Python libraries such as Pandas to prepare internal and external datasets before uploading them to Apache Hadoop to be processed in Impala and visualized in Tableau via a JDBC driver.  
+Designed a risk assessment model that identified 10 truck drivers needing further training by extracting abnormal sensor data, normalized against internal and external factors such as miles driven and geolocation safety statistics. Utilized Python libraries such as Pandas to prepare internal and external datasets before uploading them to Apache Hadoop to be processed in Impala and visualized in Tableau via a JDBC driver.  
 
 <br>
 
@@ -47,10 +47,11 @@ As president, I led the successful execution of this event, overseeing corporate
 
 ## Work Experience
 **Lennox International**  (_Summer 2024_)  
-_eCommerce Merchandising Intern_
--	Enhanced data integrity for 10,000+ products across company platforms by pinpointing critical errors in the SAP Datahub, ensuring accurate synchronization of material status between SAP ECC and SAP Hybris  
--	Implemented a streamlined system for clearance center updates, resolving key errors and increasing process efficiency by over 300% by leveraging optimized data sources and designing an efficient Excel template  
--	Established an Amazon Brand Registry account, which removed 10+ counterfeit product listings by authenticating Lennox trademarks with Amazon and registering our authorized resellers under our Brand Registry for 3rd party monitoring  
+_eCommerce Analyst Intern_
+-	Enhanced data integrity for 10,000+ products across company platforms by pinpointing critical errors in the SAP Datahub, ensuring accurate synchronization of material status between SAP ECC and SAP Hybris
+-	Implemented a streamlined system for clearance center updates, resolving key errors and increasing process efficiency by over 300% by leveraging optimized data sources and designing an efficient Excel template
+-	Established an Amazon Brand Registry account, which removed 10+ counterfeit product listings by authenticating Lennox trademarks with Amazon and registering our authorized resellers under our Brand Registry for 3rd party monitoring
+
 
 **Bocal Majority**  (_Fall 2022 - Spring 2024_)  
 _Merchandising Coordinator_
