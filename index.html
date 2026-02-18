@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <a href="#top" class="navbar-brand" style="text-decoration: none; cursor: pointer;">Jack Feen</a>
+    <div class="navbar-links">
+        <a href="#projects" class="navbar-link">Projects</a>
+        <a href="#myjourney" class="navbar-link">My Journey</a>
+        <a href="https://jackfeen.github.io/resume/" target="_blank" class="navbar-link">Resume</a>
+        <a href="/cdn-cgi/l/email-protection#4b212a28202d2e2e253828232424270b2c262a222765282426" class="navbar-link">Contact</a>
+        <div class="theme-toggle">
+            <span class="toggle-icon">☀️</span>
+            <div class="toggle-switch" id="themeToggle">
+                <div class="toggle-slider"></div>
+            </div>
+            <span class="toggle-icon">🌙</span>
+        </div>
+    </div>
+</nav>
+
+
+    <div class="center-box">
+        <img src="headshot.jpg" alt="Jack Feen Headshot" class="circle-headshot">
+        <div style="height: 10px;"></div>
+
+        <h1>Hi, I'm 
+            <span class="gradient-text">Jack Feen.</span>
+        </h1>
+
+        <div style="height: 10px;"></div>
+
+        <p>I’m a Masters in Business Analytics student at the McCombs School of Business at the University of Texas at Austin interested in Finance and Data Science.
+        </p>
+
+        <div class="icon-buttons">
+            <a href="https://github.com/JackFeen" target="_blank">
+              <img src="github.png" alt="GitHub" class="icon-btn">
+            </a>
+            <a href="https://www.linkedin.com/in/jackafeen/" target="_blank">
+              <img src="linkedin.png" alt="LinkedIn" class="icon-btn">
+            </a>
+            <a href="/cdn-cgi/l/email-protection#9ff5fefcf4f9fafaf1ecfcf7f0f0f3dff8f2fef6f3b1fcf0f2" class="navbar-link">
+              <img src="email.png" alt="Email" class="icon-btn">
+            </a>
+          </div>
+
+          <div class="nav-buttons">
+            <a href="#projects" class="nav-btn">Projects</a>
+            <a href="#myjourney" class="nav-btn">My Journey</a>
+        </div>
+
+        </div>
+
+    <div style="height: 60px;"></div>
+
+    <div class="projects-container" id="projects">
+
+        <h1>            
+            <span class="gradient-text">Projects.</span>
+        </h1>
+            
+            <div class="projects-grid">
+                <!-- News Sentiment Project -->
+                <a href="https://medium.com/@tanyajain.2021/news-sentiment-in-portfolio-optimization-f5fe752c3b89" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <h2 class="project-title">News Sentiment for Stock Portfolio Optimization</h2>
+                        <div>
+                            <span class="project-tag tag-finance">Finance</span>
+                            <span class="project-tag tag-ml">Machine Learning</span>
+                            <span class="project-tag tag-data">NLP</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li><strong>Developed a classifier</strong> using market and news signals to predict superior returns between sentiment-based and minimum variance optimized portfolio weighting strategies</li>
+                        <li><strong>Beat traditional Mean Variance Optimization</strong> returns by 12% while decreasing volatility by 10% (Sharpe 0.95)</li>
+                        <li><strong>Built a data pipeline</strong> in Python with Pandas, NumPy, and VADER NLP which processed 1.4M news articles and 13M+ CRSP returns records covering 6,000+ equities</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">+12%</span>
+                            <span class="metric-label">Returns vs MVO</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">-10%</span>
+                            <span class="metric-label">Volatility</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">1.4M</span>
+                            <span class="metric-label">Articles Processed</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+    
+                <!-- impactEarth Project -->
+                <a href="https://www.linkedin.com/feed/update/urn:li:activity:7292627869610975232" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h2 class="project-title">impactEarth</h2>
+                        <div>
+                            <span class="project-tag tag-entrepreneurship">Entrepreneurship</span>
+                            <span class="project-tag tag-business">Leadership</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Started <strong>The University of Texas at Dallas's first</strong> sustainability focused entrepreneurship competition</li>
+                        <li>Secured judges, mentors, and over <strong>$5,000 in prize winnings</strong></li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">$5K+</span>
+                            <span class="metric-label">Prize Pool</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+    
+                <!-- Snowflake ETL Project -->
+                <a href="https://github.com/julianlu03/Steam-Snowflake-Analytics" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h2 class="project-title">Snowflake ETL Pipeline for Steam Games</h2>
+                        <div>
+                            <span class="project-tag tag-data">Data Engineering</span>
+                            <span class="project-tag tag-ml">AI</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Built a <strong>3 layer structure</strong> transforming semistructured data to aggregated dashboards</li>
+                        <li>Built in <strong>AI querying functionality</strong> with Snowflake Cortex</li>
+                    </ul>
+                </div>
+                </a>
+    
+                <!-- Juris Law Project -->
+                <a href="https://github.com/JackFeen/Portfolio/blob/main/Zimbabwe_Consulting/EquipMozambique.pdf" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h2 class="project-title">Juris Law and Rights App: International Market Entry & Financial Consulting</h2>
+                        <div>
+                            <span class="project-tag tag-business">Consulting</span>
+                            <span class="project-tag tag-finance">Finance</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Developed a scalable non-profit business model for a Mozambican legal rights app servicing 30,000 users, projecting <strong>$200k in yearly cash flows</strong> through implementation of grant management tools and assessment framework</li>
+                        <li>Built a <strong>Zimbabwe market entry strategy</strong>, comparing legal frameworks and analyzing effective marketing initiatives</li>
+                    </ul>
+                    </div>
+                </div>
+                </a>
+    
+                <!-- Dwelling Project -->
+                <a href="https://github.com/JackFeen/Portfolio/blob/main/Apartment_Reccomendation/Dwelling%20-%20Unstructured%20Data%20Project.pdf" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h2 class="project-title">Dwelling - Apartment Recommendations with Unstructured Data Insights</h2>
+                        <div>
+                            <span class="project-tag tag-ml">Machine Learning</span>
+                            <span class="project-tag tag-data">Data Engineering</span>
+                            <span class="project-tag tag-data">NLP</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li>Generated <strong>dynamic apartment recommendations</strong> by allowing users to input desired neighborhood features (proximity to schools, restaurants, gyms, etc.)</li>
+                        <li>Web scraped apartments.com and reddit to create a database of local Austin apartments and neighborhood sentiments</li>
+                        <li>Used <strong>Google Maps API</strong> calls with cosine similarity and weighted distance scoring to modify the rank of apartments based on nearby features</li>
+                    </ul>
+                </div>
+                </a>
+
+                <!-- Connect 4 AI Project -->
+                <a href="https://msba25optim2-32.anvil.app/" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <h2 class="project-title">Connect 4 AI — Deep Learning Game Agent</h2>
+                        <div>
+                            <span class="project-tag tag-ml">Machine Learning</span>
+                            <span class="project-tag tag-ml">AI</span>
+                            <span class="project-tag tag-data">Full-Stack</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li><strong>Generated a large-scale game database</strong> using Monte Carlo Tree Search (MCTS) to simulate high-quality gameplay</li>
+                        <li><strong>Trained a Transformer and CNN</strong> to predict optimal moves from board states, evaluated against MCTS at varying simulation strengths</li>
+                        <li><strong>Built and deployed a full-stack web app</strong> in Anvil with a Dockerized backend hosted on AWS Lightsail — users can play directly against the trained neural network</li>
+                        <li>Brought together <strong>game theory, ML, model evaluation, cloud infrastructure, and full-stack deployment</strong> in one end-to-end system</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">2</span>
+                            <span class="metric-label">DL Models</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">AWS</span>
+                            <span class="metric-label">Cloud Deploy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">MCTS</span>
+                            <span class="metric-label">Training Engine</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+
+                <!-- R&D Intensity Factor Project -->
+                <a href="https://jackfeen.github.io/emperical-finance-rd/" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <h2 class="project-title">R&D Intensity Factor — Quantitative Equity Strategy Analysis</h2>
+                        <div>
+                            <span class="project-tag tag-finance">Finance</span>
+                            <span class="project-tag tag-data">Quantitative Research</span>
+                        </div>
+                    </div>
+                    <ul class="project-highlights">
+                        <li><strong>Engineered a 5-year decay-weighted R&D/ME signal</strong> capturing persistent innovation effects, tested across 43 years of CRSP/Compustat data (1980–2022)</li>
+                        <li><strong>Constructed quintile-sorted long-short portfolios</strong> with annual July rebalancing, risk-adjusted via CAPM and Fama-French 3-factor models</li>
+                        <li>High R&D firms (Q5) generated <strong>+2.02%/month FF3 alpha (t=6.08)</strong> in 1980–2000; alpha decayed 62% post-2000, consistent with strategy crowding</li>
+                        <li>Value-weighting eliminated significance — anomaly concentrated in <strong>illiquid micro-caps</strong> (64.6% sub-$50M firms in Q5)</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-value">43yr</span>
+                            <span class="metric-label">Data History</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">+2.02%</span>
+                            <span class="metric-label">Monthly Alpha</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">-62%</span>
+                            <span class="metric-label">Post-2000 Decay</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+
+            </div>
+        </div>
+
+    <div style="height: 120px;"></div>
+
+    <div class="timeline-container" id="myjourney">
+                <h1>            
+                    <span class="gradient-text">My Journey.</span>
+                </h1>
+        
+        <div style="height: 20px;"></div>
+
+
+        <div class="timeline">
+            <!-- Spring 2026 - Capstone & Graduate UT Austin -->
+            <div class="season-marker">
+                <span class="season-label">Spring 2026</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Graduating Spring 2026</div>
+                        <div class="timeline-title">M.S. in Business Analytics, Financial Analytics</div>
+                        <div class="timeline-organization">UT Austin</div>
+                        <span class="timeline-label">Education</span>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item work">
+                    <a href = "https://www.linkedin.com/company/viseinc/">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Spring 2026</div>
+                        <div class="timeline-title">Portfolio Optimization Researcher</div>
+                        <div class="timeline-organization">Vise AI</div>
+                        <span class="timeline-label">CAPSTONE</span>
+                    </div>
+                    </a>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Fall 2025 - Start UT Austin -->
+            <div class="season-marker">
+                <span class="season-label">Fall 2025</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Started Fall 2025</div>
+                        <div class="timeline-title">M.S. in Business Analytics, Financial Analytics</div>
+                        <div class="timeline-organization">UT Austin</div>
+                        <span class="timeline-label">Education</span>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Summer 2025 - EssilorLuxottica -->
+            <div class="season-marker">
+                <span class="season-label">Summer 2025</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item work">
+                    <a href = "https://www.linkedin.com/company/essilorluxottica/">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Summer 2025</div>
+                        <div class="timeline-title">Business Analyst Intern</div>
+                        <div class="timeline-organization">EssilorLuxottica</div>
+                        <span class="timeline-label">Internship</span>
+                    </div>
+                </a>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Spring 2025 - Graduate UT Dallas -->
+            <div class="season-marker">
+                <span class="season-label">Spring 2025</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Graduated Spring 2025</div>
+                        <div class="timeline-title">B.S. in Business Analytics & Artificial Intelligence</div>
+                        <div class="timeline-organization">UT Dallas</div>
+                        <span class="timeline-label">Education</span>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Summer 2024 - Lennox & SSB President -->
+            <div class="season-marker">
+                <span class="season-label">Summer 2024</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <a href = "https://www.linkedin.com/company/ssbutd/">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Summer 2024</div>
+                        <div class="timeline-title">President</div>
+                        <div class="timeline-organization">Society of Sustainable Business</div>
+                        <span class="timeline-label">Leadership</span>
+                        <div class="timeline-note">Served until Spring 2025</div>
+                    </div>
+                </a>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item work">
+                    <a href = "https://www.linkedin.com/company/lennox/">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Summer 2024</div>
+                        <div class="timeline-title">Ecommerce Analyst Intern</div>
+                        <div class="timeline-organization">Lennox International</div>
+                        <span class="timeline-label">Internship</span>
+                    </div>
+                </a>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Fall 2023 - Marketing Manager -->
+            <div class="season-marker">
+                <span class="season-label">Fall 2023</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <a href = "https://www.linkedin.com/company/ssbutd/">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Fall 2023</div>
+                        <div class="timeline-title">Marketing Manager</div>
+                        <div class="timeline-organization">Society of Sustainable Business</div>
+                        <span class="timeline-label">Leadership</span>
+                    </div>
+                    </a>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <!-- Fall 2022 - Start UT Dallas -->
+            <div class="season-marker">
+                <span class="season-label">Fall 2022</span>
+            </div>
+
+            <div class="timeline-row">
+                <div class="timeline-item education">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Started Fall 2022</div>
+                        <div class="timeline-title">B.S. in Business Analytics & Artificial Intelligence</div>
+                        <div class="timeline-organization">UT Dallas</div>
+                        <span class="timeline-label">Education</span>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+      
