@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jack Alexander Feen – Feenipedia</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%23fff' stroke='%23000' stroke-width='1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='Georgia,serif' fill='%23000'>F</text></svg>" type="image/svg+xml">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  /* ===========================
+     CSS VARIABLES / THEMING
+     =========================== */
+  :root {
+    --bg-page: #f8f9fa;
+    --bg-content: #ffffff;
+    --bg-infobox: #f8f9fa;
+    --bg-infobox-header: #b0c4de;
+    --bg-infobox-subheader: #d0dff0;
+    --bg-infobox-label: #e8eef5;
+    --bg-toc: #f8f9fa;
+    --bg-wikitable-header: #eaecf0;
+    --bg-catlinks: #f8f9fa;
+    --bg-ambox: #fbfbfb;
+    --bg-tab-active: #ffffff;
+    --bg-search-input: #fff;
+    --bg-header: #ffffff;
+
+    --border-main: #a7d7f9;
+    --border-secondary: #a2a9b1;
+    --border-infobox: #cedff2;
+
+    --text-primary: #202122;
+    --text-secondary: #54595d;
+    --text-link: #0645ad;
+    --text-link-visited: #0b0080;
+    --text-redlink: #ba0000;
+
+    --highlight-bg: #fff176;
+    --highlight-active: #ff9800;
+
+    --tab-border: #a7d7f9;
+  }
+
+  [data-theme="dark"] {
+    --bg-page: #1a1a2e;
+    --bg-content: #16213e;
+    --bg-infobox: #1a1a2e;
+    --bg-infobox-header: #2c3e6b;
+    --bg-infobox-subheader: #253456;
+    --bg-infobox-label: #1e2d50;
+    --bg-toc: #1a1a2e;
+    --bg-wikitable-header: #253456;
+    --bg-catlinks: #1a1a2e;
+    --bg-ambox: #1a1a2e;
+    --bg-tab-active: #16213e;
+    --bg-search-input: #0f1a30;
+    --bg-header: #0f3460;
+
+    --border-main: #0f3460;
+    --border-secondary: #2c3e6b;
+    --border-infobox: #2c3e6b;
+
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --text-link: #6db3f2;
+    --text-link-visited: #9d8df1;
+    --text-redlink: #f27676;
+
+    --highlight-bg: #5c4d00;
+    --highlight-active: #a06800;
+
+    --tab-border: #0f3460;
+  }
+
+  /* ===========================
+     RESET & BASE
+     =========================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-page);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:visited { color: var(--text-link-visited); }
+  a.external::after {
+    content: ''; display: inline-block; width: 10px; height: 10px; margin-left: 3px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M1 9L9 1M9 1H3M9 1v6' stroke='%230645ad' fill='none' stroke-width='1'/%3E%3C/svg%3E") no-repeat;
+  }
+  [data-theme="dark"] a.external::after {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M1 9L9 1M9 1H3M9 1v6' stroke='%236db3f2' fill='none' stroke-width='1'/%3E%3C/svg%3E") no-repeat;
+  }
+  a.redlink { color: var(--text-redlink); }
+  a.redlink:visited { color: var(--text-redlink); }
+
+  .search-highlight { background: var(--highlight-bg); padding: 1px 2px; border-radius: 2px; }
+  .search-highlight-active { background: var(--highlight-active); color: #fff; }
+
+  /* ===========================
+     HEADER
+     =========================== */
+  .wiki-header {
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border-main);
+    height: 54px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background 0.3s;
+  }
+  .wiki-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    font-family: 'Linux Libertine', Georgia, serif;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .wiki-logo:hover { text-decoration: none; }
+  .wiki-logo svg { width: 38px; height: 38px; flex-shrink: 0; }
+  .wiki-logo-text { line-height: 1.1; }
+  .wiki-logo-title { font-size: 17px; font-weight: normal; letter-spacing: 0.3px; }
+  .wiki-logo-sub { font-size: 9.5px; color: var(--text-secondary); font-family: sans-serif; letter-spacing: 0.4px; }
+
+  .wiki-header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .wiki-nav {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    font-family: sans-serif;
+  }
+  .wiki-nav a { color: var(--text-link); cursor: pointer; }
+
+  /* Dark mode toggle */
+  .dark-toggle {
+    background: none;
+    border: 1px solid var(--border-secondary);
+    border-radius: 14px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .dark-toggle:hover { border-color: var(--text-link); }
+
+  /* Search */
+  .wiki-search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .wiki-search input {
+    border: 1px solid var(--border-secondary);
+    border-radius: 2px;
+    padding: 5px 28px 5px 8px;
+    font-size: 13px;
+    width: 220px;
+    font-family: sans-serif;
+    outline: none;
+    background: var(--bg-search-input);
+    color: var(--text-primary);
+    transition: all 0.3s;
+  }
+  .wiki-search input:focus { border-color: #36c; box-shadow: inset 0 0 0 1px #36c; }
+  .wiki-search-btn {
+    position: absolute;
+    right: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding: 2px 4px;
+  }
+  .search-counter {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--bg-content);
+    border: 1px solid var(--border-secondary);
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-family: sans-serif;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    display: none;
+    z-index: 200;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .search-counter.visible { display: block; }
+  .search-nav-btns {
+    position: absolute;
+    right: 30px;
+    display: none;
+    gap: 2px;
+  }
+  .search-nav-btns.visible { display: flex; }
+  .search-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 0 3px;
+    line-height: 1;
+  }
+  .search-nav-btn:hover { color: var(--text-primary); }
+
+  /* ===========================
+     TABS
+     =========================== */
+  .wiki-tabs {
+    background: var(--bg-content);
+    border-bottom: 1px solid var(--border-main);
+    padding: 0 20px;
+    display: flex;
+    font-size: 12.5px;
+    font-family: sans-serif;
+    overflow-x: auto;
+    transition: background 0.3s;
+  }
+  .wiki-tabs a {
+    padding: 8px 12px;
+    color: var(--text-link);
+    border-bottom: 2px solid transparent;
+    display: inline-block;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .wiki-tabs a.active {
+    background: var(--bg-tab-active);
+    border: 1px solid var(--tab-border);
+    border-bottom: 1px solid var(--bg-tab-active);
+    margin-bottom: -1px;
+    border-radius: 2px 2px 0 0;
+    color: var(--text-primary);
+  }
+  .wiki-tabs a:hover { text-decoration: none; background: var(--bg-infobox); }
+
+  /* ===========================
+     MAIN CONTENT
+     =========================== */
+  .wiki-body {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--bg-content);
+    border: 1px solid var(--border-main);
+    border-top: none;
+    min-height: 100vh;
+    padding: 20px 24px 40px;
+    transition: all 0.3s;
+  }
+
+  /* Tab panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Page title */
+  .page-title {
+    font-family: 'Linux Libertine', Georgia, serif;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.2;
+    border-bottom: 1px solid var(--border-secondary);
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+  }
+  .page-subtitle {
+    font-size: 12px;
+    font-family: sans-serif;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* ===========================
+     INFOBOX
+     =========================== */
+  .infobox {
+    float: right;
+    clear: right;
+    width: 270px;
+    margin: 0 0 14px 20px;
+    border: 1px solid var(--border-secondary);
+    border-collapse: collapse;
+    font-size: 12.8px;
+    line-height: 1.5;
+    font-family: sans-serif;
+    background: var(--bg-infobox);
+    transition: all 0.3s;
+  }
+  .infobox-header {
+    background: var(--bg-infobox-header);
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Linux Libertine', Georgia, serif;
+  }
+  .infobox-subheader {
+    background: var(--bg-infobox-subheader);
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-style: italic;
+  }
+  .infobox-image {
+    text-align: center;
+    padding: 8px;
+    background: var(--bg-infobox);
+  }
+  .infobox-image img {
+    width: 200px;
+    height: auto;
+    border: 1px solid var(--border-secondary);
+  }
+  .infobox-image-caption {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .infobox-label {
+    vertical-align: top;
+    padding: 4px 8px;
+    font-weight: bold;
+    width: 90px;
+    border-top: 1px solid var(--border-infobox);
+    background: var(--bg-infobox-label);
+  }
+  .infobox-data {
+    vertical-align: top;
+    padding: 4px 8px;
+    border-top: 1px solid var(--border-infobox);
+  }
+
+  /* ===========================
+     TABLE OF CONTENTS
+     =========================== */
+  .toc {
+    display: inline-block;
+    background: var(--bg-toc);
+    border: 1px solid var(--border-secondary);
+    padding: 10px 14px;
+    margin: 10px 0 16px;
+    font-size: 13px;
+    font-family: sans-serif;
+    min-width: 200px;
+    transition: all 0.3s;
+  }
+  .toc-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .toc-toggle { font-weight: normal; font-size: 12px; color: var(--text-link); cursor: pointer; margin-left: 6px; }
+  .toc ol { list-style: none; counter-reset: toc-counter; padding-left: 0; }
+  .toc > ol > li { counter-increment: toc-counter; margin: 2px 0; }
+  .toc > ol > li::before { content: counter(toc-counter) " "; }
+  .toc > ol > li > ol { padding-left: 20px; counter-reset: toc-sub; }
+  .toc > ol > li > ol > li { counter-increment: toc-sub; margin: 1px 0; }
+  .toc > ol > li > ol > li::before { content: counter(toc-counter) "." counter(toc-sub) " "; }
+  .toc a { color: var(--text-link); }
+
+  /* ===========================
+     STICKY MINI-TOC
+     =========================== */
+  .mini-toc {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--bg-content);
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-family: sans-serif;
+    max-height: 50vh;
+    overflow-y: auto;
+    z-index: 90;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s, background 0.3s;
+    width: 200px;
+  }
+  .mini-toc.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+  .mini-toc-title { font-weight: bold; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.5px; }
+  .mini-toc a {
+    display: block;
+    padding: 2px 0;
+    color: var(--text-link);
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+  .mini-toc a.active-section { font-weight: bold; color: var(--text-primary); }
+  .mini-toc a.sub { padding-left: 12px; font-size: 11px; }
+
+  /* ===========================
+     SECTION HEADINGS
+     =========================== */
+  h2.section-heading {
+    font-family: 'Linux Libertine', Georgia, serif;
+    font-size: 22px;
+    font-weight: normal;
+    border-bottom: 1px solid var(--border-secondary);
+    margin: 24px 0 8px;
+    padding-bottom: 4px;
+    line-height: 1.3;
+    clear: both;
+  }
+  h3.section-heading {
+    font-family: 'Linux Libertine', Georgia, serif;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 18px 0 6px;
+    line-height: 1.3;
+  }
+  .edit-link {
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: normal;
+    margin-left: 8px;
+    color: var(--text-link);
+  }
+
+  /* ===========================
+     BODY TEXT
+     =========================== */
+  .mw-content p { margin: 6px 0 10px; font-size: 14px; line-height: 1.6; }
+  .mw-content ul, .mw-content ol { margin: 6px 0 10px 24px; font-size: 14px; }
+  .mw-content li { margin-bottom: 3px; }
+  .bold { font-weight: bold; }
+
+  /* ===========================
+     WIKITABLE
+     =========================== */
+  .wikitable {
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+    font-family: sans-serif;
+    background: var(--bg-infobox);
+    border: 1px solid var(--border-secondary);
+    transition: all 0.3s;
+  }
+  .wikitable th {
+    background: var(--bg-wikitable-header);
+    border: 1px solid var(--border-secondary);
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+  .wikitable td {
+    border: 1px solid var(--border-secondary);
+    padding: 6px 10px;
+  }
+
+  /* ===========================
+     REFERENCES
+     =========================== */
+  .reflist {
+    font-size: 12px;
+    font-family: sans-serif;
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .reflist ol { padding-left: 28px; margin: 0; }
+  .reflist li { margin-bottom: 4px; line-height: 1.5; }
+  sup.ref { font-size: 10px; vertical-align: super; line-height: 0; }
+  sup.ref a { color: var(--text-link); font-weight: bold; }
+
+  /* ===========================
+     CATEGORIES
+     =========================== */
+  .catlinks {
+    background: var(--bg-catlinks);
+    border: 1px solid var(--border-secondary);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: sans-serif;
+    margin-top: 30px;
+    clear: both;
+    transition: all 0.3s;
+  }
+  .catlinks-header { font-weight: bold; margin-right: 4px; }
+
+  /* ===========================
+     HATNOTE & AMBOX
+     =========================== */
+  .hatnote {
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding-left: 16px;
+    margin-bottom: 10px;
+    font-family: sans-serif;
+  }
+  .ambox {
+    border: 1px solid var(--border-secondary);
+    background: var(--bg-ambox);
+    margin: 10px 0;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+  .ambox-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .ambox-text { flex: 1; }
+  .ambox-text i { font-size: 12px; color: var(--text-secondary); }
+
+  /* ===========================
+     TALK PAGE (Contact)
+     =========================== */
+  .talk-section {
+    font-family: sans-serif;
+    font-size: 13px;
+  }
+  .talk-section .talk-thread {
+    border-left: 3px solid var(--border-main);
+    padding: 10px 16px;
+    margin: 16px 0;
+    background: var(--bg-infobox);
+    border-radius: 0 4px 4px 0;
+  }
+  .talk-section .talk-author {
+    font-weight: bold;
+    color: var(--text-link);
+  }
+  .talk-section .talk-timestamp {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-left: 8px;
+  }
+  .talk-section .talk-body {
+    margin-top: 6px;
+    line-height: 1.6;
+    font-size: 13.5px;
+  }
+  .contact-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .contact-card {
+    border: 1px solid var(--border-secondary);
+    padding: 12px 16px;
+    border-radius: 4px;
+    background: var(--bg-infobox);
+    transition: all 0.2s;
+  }
+  .contact-card:hover { border-color: var(--text-link); }
+  .contact-card-icon { font-size: 20px; margin-bottom: 6px; }
+  .contact-card-label { font-weight: bold; font-size: 12px; margin-bottom: 2px; }
+  .contact-card-value { font-size: 13px; }
+  .contact-card-value a { color: var(--text-link); }
+
+  /* ===========================
+     VIEW HISTORY TAB
+     =========================== */
+  .history-list {
+    font-family: sans-serif;
+    font-size: 13px;
+  }
+  .history-item {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-infobox);
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .history-date {
+    color: var(--text-link);
+    white-space: nowrap;
+    min-width: 110px;
+    font-size: 12px;
+  }
+  .history-summary { flex: 1; }
+  .history-size {
+    color: var(--text-secondary);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .history-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 6px;
+    font-weight: bold;
+  }
+  .history-tag.new { background: #d5fdd5; color: #1a6e1a; }
+  .history-tag.minor { background: #e0e7ff; color: #3a4cad; }
+  [data-theme="dark"] .history-tag.new { background: #1a3a1a; color: #7ad47a; }
+  [data-theme="dark"] .history-tag.minor { background: #1a2040; color: #7a8ad4; }
+
+  /* ===========================
+     FOOTER
+     =========================== */
+  .wiki-footer {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: sans-serif;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .wiki-footer a { color: var(--text-link); }
+
+  /* ===========================
+     MOBILE
+     =========================== */
+  @media (max-width: 768px) {
+    .infobox { float: none; width: 100%; margin: 0 0 14px; }
+    .wiki-search { display: none; }
+    .wiki-nav { display: none; }
+    .wiki-tabs { overflow-x: auto; }
+    .reflist { column-count: 1; }
+    .mini-toc { right: 10px; bottom: 10px; width: 170px; font-size: 11px; }
+    .wiki-body { padding: 14px 16px 30px; }
+    .contact-methods { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .page-title { font-size: 22px; }
+    .dark-toggle span.label-text { display: none; }
+    .mini-toc { display: none !important; }
+  }
+
+  /* ========== PERSONAL SECTION ========== */
+  .personal-content {
+    max-width: 900px;
+    font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+    line-height: 1.6;
+  }
+  .personal-section {
+    margin: 24px 0;
+  }
+  .music-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 16px 0 24px 0;
+  }
+  .music-img-placeholder {
+    width: 180px;
+    height: 140px;
+    background: var(--bg-infobox);
+    border: 1px solid var(--border-infobox);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: sans-serif;
+    padding: 8px;
+  }
+  #travel-map {
+    height: 450px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 4px;
+    margin: 16px 0;
+    background: var(--bg-content);
+  }
+  .map-caption {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-family: sans-serif;
+  }
+  .leaflet-popup-content {
+    font-family: sans-serif !important;
+    margin: 0 !important;
+  }
+  .leaflet-popup-content img {
+    max-width: 200px;
+    max-height: 150px;
+    display: block;
+    margin-bottom: 8px;
+    border-radius: 3px;
+  }
+  .map-popup-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text-primary);
+  }
+  .leaflet-container {
+    font-family: sans-serif;
+  }
+  [data-theme="dark"] .leaflet-popup-content {
+    background: var(--bg-content) !important;
+    color: var(--text-primary);
+  }
+  [data-theme="dark"] .leaflet-popup-content-wrapper {
+    background: var(--bg-content) !important;
+    border: 1px solid var(--border-secondary) !important;
+  }
+  [data-theme="dark"] .leaflet-popup-tip {
+    background: var(--bg-content) !important;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="wiki-header">
+  <a class="wiki-logo" onclick="switchTab('article')">
+    <svg viewBox="0 0 38 38" fill="none">
+      <circle cx="19" cy="19" r="17.5" stroke="var(--text-primary)" stroke-width="0.8" fill="var(--bg-content)"/>
+      <text x="19" y="25" text-anchor="middle" font-size="19" font-family="'Linux Libertine', Georgia, serif" fill="var(--text-primary)">F</text>
+    </svg>
+    <div class="wiki-logo-text">
+      <div class="wiki-logo-title">Feenipedia</div>
+      <div class="wiki-logo-sub">The Free Encyclopedia of Jack Feen</div>
+    </div>
+  </a>
+  <div class="wiki-header-right">
+    <nav class="wiki-nav">
+      <a onclick="switchTab('article')">Main page</a>
+      <a onclick="document.getElementById('toc-box').scrollIntoView({behavior:'smooth'})">Contents</a>
+      <a onclick="scrollToRandom()">Random section</a>
+    </nav>
+    <button class="dark-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">
+      <span id="theme-icon">🌙</span>
+      <span class="label-text" id="theme-label">Dark</span>
+    </button>
+    <div class="wiki-search">
+      <input type="text" id="search-input" placeholder="Search Feenipedia" onkeydown="if(event.key==='Enter'){event.preventDefault(); searchNext()}" oninput="performSearch()">
+      <div class="search-nav-btns" id="search-nav">
+        <button class="search-nav-btn" onclick="searchPrev()" title="Previous">▲</button>
+        <button class="search-nav-btn" onclick="searchNext()" title="Next">▼</button>
+      </div>
+      <button class="wiki-search-btn" onclick="performSearch()" title="Search">🔍</button>
+      <div class="search-counter" id="search-counter"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TABS ============ -->
+<div class="wiki-tabs">
+  <a class="active" id="tab-article" onclick="switchTab('article')">Article</a>
+  <a id="tab-talk" onclick="switchTab('talk')">Talk</a>
+  <a id="tab-personal" onclick="switchTab('personal')">Personal</a>
+</div>
+
+<!-- ============ BODY ============ -->
+<div class="wiki-body mw-content">
+
+<!-- ==============================
+     ARTICLE TAB
+     ============================== -->
+<div class="tab-panel active" id="panel-article">
+
+  <h1 class="page-title">Jack Alexander Feen</h1>
+  <div class="page-subtitle">From Feenipedia, the free encyclopedia</div>
+
+  <div class="hatnote">This article is about the business analytics researcher and product manager. For other people named Feen, see <a class="redlink">Feen (disambiguation)</a>.</div>
+
+  <div class="ambox">
+    <div class="ambox-icon">⭐</div>
+    <div class="ambox-text">
+      This article has been rated as <b>high-importance</b> on the project's <a href="https://en.wikipedia.org/wiki/Wikipedia:Content_assessment" target="_blank">importance scale</a>. <i>(April 2026)</i>
+    </div>
+  </div>
+
+  <!-- INFOBOX -->
+  <table class="infobox">
+    <tr><td class="infobox-header" colspan="2">Jack Alexander Feen</td></tr>
+    <tr><td class="infobox-image" colspan="2">
+      <img src="fixpls/headshot.jpg" alt="Jack Alexander Feen" loading="lazy">
+      <div class="infobox-image-caption">Feen in 2025</div>
+    </td></tr>
+    <tr><td class="infobox-label">Born</td><td class="infobox-data">Austin, <a href="https://en.wikipedia.org/wiki/Texas" target="_blank">Texas</a>, U.S.</td></tr>
+    <tr><td class="infobox-label">Nationality</td><td class="infobox-data">American</td></tr>
+    <tr><td class="infobox-label">Education</td><td class="infobox-data"><a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Austin" target="_blank">University of Texas at Austin</a> (MS)<br><a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Dallas" target="_blank">University of Texas at Dallas</a> (BS)</td></tr>
+    <tr><td class="infobox-label">Occupation</td><td class="infobox-data">Product Manager at <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">IBM</a></td></tr>
+    <tr><td class="infobox-label">Known&nbsp;for</td><td class="infobox-data">IT product management, AI engineering, NLP research, investment analytics</td></tr>
+    <tr><td class="infobox-header" colspan="2" style="font-size:12px; background:var(--bg-infobox-subheader);">Academic career</td></tr>
+    <tr><td class="infobox-label">Fields</td><td class="infobox-data"><a href="https://en.wikipedia.org/wiki/Product_management" target="_blank">Product Management</a><br><a href="https://en.wikipedia.org/wiki/Business_analytics" target="_blank">Business Analytics</a><br><a href="https://en.wikipedia.org/wiki/Financial_analysis" target="_blank">Financial Analytics</a><br><a href="https://en.wikipedia.org/wiki/Artificial_intelligence" target="_blank">Artificial Intelligence</a></td></tr>
+    <tr><td class="infobox-label">Institutions</td><td class="infobox-data"><a href="https://en.wikipedia.org/wiki/McCombs_School_of_Business" target="_blank">McCombs School of Business</a><br><a href="https://en.wikipedia.org/wiki/Naveen_Jindal_School_of_Management" target="_blank">Jindal School of Management</a></td></tr>
+    <tr><td class="infobox-header" colspan="2" style="font-size:12px; background:var(--bg-infobox-subheader);">Online presence</td></tr>
+    <tr><td class="infobox-label">Website</td><td class="infobox-data"><a href="https://jackfeen.github.io" class="external" target="_blank">jackfeen.github.io</a></td></tr>
+    <tr><td class="infobox-label">LinkedIn</td><td class="infobox-data"><a href="https://linkedin.com/in/jackafeen" class="external" target="_blank">linkedin.com/in/jackafeen/</a></td></tr>
+    <tr><td class="infobox-label">Email</td><td class="infobox-data"><a href="mailto:jaf5542@my.utexas.edu">jaf5542@my.utexas.edu</a></td></tr>
+  </table>
+
+  <!-- LEAD -->
+  <p>
+    <span class="bold">Jack Alexander Feen</span> is an American <a href="https://en.wikipedia.org/wiki/Product_manager" target="_blank">product manager</a>, <a href="https://en.wikipedia.org/wiki/Data_science" target="_blank">data scientist</a>, and researcher based in <a href="https://en.wikipedia.org/wiki/Austin,_Texas" target="_blank">Austin, Texas</a>. He currently serves as a Product Manager at <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">IBM</a> in San Jose, California. Feen's work spans <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank">machine learning</a>, <a href="https://en.wikipedia.org/wiki/Natural_language_processing" target="_blank">natural language processing</a>, and <a href="https://en.wikipedia.org/wiki/Quantitative_analysis_(finance)" target="_blank">quantitative finance</a>.<sup class="ref"><a href="#ref1">[1]</a></sup>
+  </p>
+  <p>
+    Feen holds a Master of Science in Business Analytics with a Financial Analytics concentration from the <a href="https://en.wikipedia.org/wiki/McCombs_School_of_Business" target="_blank">McCombs School of Business</a> at the <a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Austin" target="_blank">University of Texas at Austin</a>, and a Bachelor of Science in Business Analytics and Artificial Intelligence from the <a href="https://en.wikipedia.org/wiki/Naveen_Jindal_School_of_Management" target="_blank">Naveen Jindal School of Management</a> at the <a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Dallas" target="_blank">University of Texas at Dallas</a>, where he graduated <a href="https://en.wikipedia.org/wiki/Summa_cum_laude" target="_blank">Summa Cum Laude</a>.<sup class="ref"><a href="#ref2">[2]</a></sup>
+  </p>
+
+  <!-- TOC -->
+  <div class="toc" id="toc-box">
+    <div class="toc-title">Contents <span class="toc-toggle" id="toc-toggle">[hide]</span></div>
+    <ol id="toc-list">
+      <li><a href="#education">Education</a>
+        <ol>
+          <li><a href="#utd">University of Texas at Dallas</a></li>
+          <li><a href="#utaustin">University of Texas at Austin</a></li>
+        </ol>
+      </li>
+      <li><a href="#career">Career</a>
+        <ol>
+          <li><a href="#lennox">Lennox International</a></li>
+          <li><a href="#essilor">EssilorLuxottica (Helix)</a></li>
+          <li><a href="#vise">Vise</a></li>
+          <li><a href="#ibm">IBM</a></li>
+        </ol>
+      </li>
+      <li><a href="#research">Research and projects</a>
+        <ol>
+          <li><a href="#connect4">Connect 4 AI</a></li>
+          <li><a href="#dwelling">Dwelling</a></li>
+          <li><a href="#blame">Blame-shifting in earnings calls</a></li>
+          <li><a href="#snowflake-etl">Snowflake ETL Pipeline</a></li>
+          <li><a href="#juris">Juris Law consulting</a></li>
+        </ol>
+      </li>
+      <li><a href="#extracurricular">Extracurricular activities</a></li>
+      <li><a href="#honors">Honors and awards</a></li>
+      <li><a href="#skills">Technical proficiency</a></li>
+      <li><a href="#references">References</a></li>
+      <li><a href="#external">External links</a></li>
+    </ol>
+  </div>
+
+  <!-- EDUCATION -->
+  <h2 class="section-heading" id="education">Education <span class="edit-link">[<a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Austin" target="_blank">edit</a>]</span></h2>
+
+  <h3 class="section-heading" id="utd">University of Texas at Dallas</h3>
+  <p>
+    Feen enrolled at the <a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Dallas" target="_blank">University of Texas at Dallas</a> (UTD), where he pursued a Bachelor of Science in Business Analytics and Artificial Intelligence at the <a href="https://en.wikipedia.org/wiki/Naveen_Jindal_School_of_Management" target="_blank">Naveen Jindal School of Management</a>. He graduated in May 2025 with a cumulative GPA of 3.94, earning the distinction of <a href="https://en.wikipedia.org/wiki/Summa_cum_laude" target="_blank">Summa Cum Laude</a>. During his undergraduate studies, he was awarded the Ann and Jack Graves Foundation Scholarship and the Academic Excellence Scholarship.<sup class="ref"><a href="#ref2">[2]</a></sup>
+  </p>
+  <p>
+    His undergraduate coursework included <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank">machine learning</a>, <a href="https://en.wikipedia.org/wiki/Big_data" target="_blank">big data</a> infrastructure, <a href="https://en.wikipedia.org/wiki/Mathematical_optimization" target="_blank">optimization</a>, and <a href="https://en.wikipedia.org/wiki/Corporate_finance" target="_blank">corporate finance</a>. He also completed the <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">IBM</a> Professional Data Science certification during this period.<sup class="ref"><a href="#ref3">[3]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="utaustin">University of Texas at Austin</h3>
+  <p>
+    In 2025, Feen began his Master of Science in Business Analytics at the <a href="https://en.wikipedia.org/wiki/McCombs_School_of_Business" target="_blank">McCombs School of Business</a>, University of Texas at Austin, with a concentration in Financial Analytics. He maintained a GPA of 3.74 and completed the program in May 2026.<sup class="ref"><a href="#ref2">[2]</a></sup> His graduate work concentrated on <a href="https://en.wikipedia.org/wiki/Data_science" target="_blank">data science</a>, <a href="https://en.wikipedia.org/wiki/Empirical_asset_pricing" target="_blank">empirical asset pricing</a>, <a href="https://en.wikipedia.org/wiki/Natural_language_processing" target="_blank">natural language processing</a> applied to financial texts, and the development of portfolio management systems.
+  </p>
+
+  <!-- CAREER -->
+  <h2 class="section-heading" id="career">Career <span class="edit-link">[<a href="https://linkedin.com/in/jackafeen" target="_blank">edit</a>]</span></h2>
+
+  <h3 class="section-heading" id="lennox">Lennox International</h3>
+  <p>
+    In the summer of 2024, Feen interned as an eCommerce Analyst at <a href="https://en.wikipedia.org/wiki/Lennox_International" target="_blank">Lennox International</a> in Dallas, Texas. His work focused on identifying and resolving data pipeline failures between <a href="https://en.wikipedia.org/wiki/SAP_ERP" target="_blank">SAP ECC</a> and the company's <a href="https://en.wikipedia.org/wiki/SAP_Hybris" target="_blank">Hybris</a> e-commerce platform, a project that affected over 10,000 product listings. He reduced the clearance center update process time by 75% through the creation of <a href="https://en.wikipedia.org/wiki/Visual_Basic_for_Applications" target="_blank">VBA</a> automations and revisions to standard operating procedures.<sup class="ref"><a href="#ref4">[4]</a></sup>
+  </p>
+  <p>
+    Feen also established and managed an <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank">Amazon</a> Brand Registry account for Lennox, successfully removing counterfeit product listings by authenticating trademarks and partnering with authorized resellers for third-party monitoring.<sup class="ref"><a href="#ref4">[4]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="essilor">EssilorLuxottica (Helix)</h3>
+  <p>
+    From May to August 2025, Feen served as a Business Analyst Intern at <a href="https://en.wikipedia.org/wiki/EssilorLuxottica" target="_blank">EssilorLuxottica</a>'s Helix division in Austin, Texas. He developed an employee bandwidth assessment framework that enabled a 15% increase in customer volume capacity. He designed a <a href="https://en.wikipedia.org/wiki/SQL" target="_blank">SQL</a> database for tracking over 10,000 records of accounts receivable, aging goals, and support ticket benchmarks, and created <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank">HubSpot</a> and <a href="https://en.wikipedia.org/wiki/Microsoft_Excel" target="_blank">Excel</a> dashboards reporting key performance indicators for Revenue Cycle Management directors.<sup class="ref"><a href="#ref5">[5]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="vise">Vise</h3>
+  <p>
+    From January to May 2026, Feen worked as an Investment Strategy Researcher at Vise, a <a href="https://en.wikipedia.org/wiki/Portfolio_management" target="_blank">portfolio management</a> technology firm based in New York. In this role, he built a rules-based <a href="https://en.wikipedia.org/wiki/Rebalancing_investments" target="_blank">portfolio rebalancing</a> engine in <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank">Python</a> incorporating drift thresholds, <a href="https://en.wikipedia.org/wiki/Tax-loss_harvesting" target="_blank">tax-loss harvesting</a> logic, and lot disposal strategies including <a href="https://en.wikipedia.org/wiki/FIFO_and_LIFO_accounting" target="_blank">FIFO, LIFO</a>, and tax-optimal methods.<sup class="ref"><a href="#ref6">[6]</a></sup>
+  </p>
+  <p>
+    Feen developed a simulation and backtesting framework to evaluate rebalancing triggers and tax-loss harvesting effectiveness. He also created a <a href="https://en.wikipedia.org/wiki/Streamlit" target="_blank">Streamlit</a> user interface enabling financial advisors to simulate portfolios and visualize drift, returns, and rebalancing trades in real time.<sup class="ref"><a href="#ref6">[6]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="ibm">IBM</h3>
+  <p>
+    Beginning in July 2026, Feen joined <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">IBM</a> as a Product Manager at their San Jose, California office.<sup class="ref"><a href="#ref7">[7]</a></sup>
+  </p>
+
+  <!-- RESEARCH -->
+  <h2 class="section-heading" id="research">Research and projects <span class="edit-link">[<a href="https://jackfeen.github.io" target="_blank">edit</a>]</span></h2>
+
+  <h3 class="section-heading" id="connect4"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7429232984848846848/" class="external" target="_blank">Connect 4 AI</a></h3>
+  <p>
+    In early 2026, Feen engineered a <a href="https://en.wikipedia.org/wiki/Connect_Four" target="_blank">Connect Four</a> artificial intelligence system by generating one million game positions using <a href="https://en.wikipedia.org/wiki/Monte_Carlo_tree_search" target="_blank">Monte Carlo Tree Search</a> (MCTS) for move selection. He trained both a <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network" target="_blank">Convolutional Neural Network</a> (CNN) and a <a href="https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)" target="_blank">Transformer</a> architecture on this dataset using <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank">Python</a> and <a href="https://en.wikipedia.org/wiki/TensorFlow" target="_blank">TensorFlow</a> to select optimal moves.<sup class="ref"><a href="#ref8">[8]</a></sup>
+  </p>
+  <p>
+    The project was <a href="https://en.wikipedia.org/wiki/Docker_(software)" target="_blank">containerized</a> using Docker and deployed on <a href="https://en.wikipedia.org/wiki/Amazon_Lightsail" target="_blank">AWS Lightsail</a> with a web-based front-end interface, allowing users to play against the trained model in real time.<sup class="ref"><a href="#ref8">[8]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="dwelling"><a href="https://github.com/JackFeen/Portfolio/tree/main/Apartment_Reccomendation" class="external" target="_blank">Dwelling: Apartment Recommendation Engine</a></h3>
+  <p>
+    In late 2025, Feen built <i>Dwelling</i>, an apartment recommendation engine that allowed users to search for housing based on neighborhood sentiment and nearby features. The system combined data from the <a href="https://en.wikipedia.org/wiki/Google_Maps" target="_blank">Google Maps API</a> with web-scraped content from <a href="https://en.wikipedia.org/wiki/Reddit" target="_blank">Reddit</a> and Apartments.com. It used <a href="https://en.wikipedia.org/wiki/Word_embedding" target="_blank">word embeddings</a> for feature identification, combined with distance and sentiment modifiers to produce a composite score for each listing.<sup class="ref"><a href="#ref9">[9]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="blame"><a href="https://github.com/JackFeen/Portfolio/tree/main/Blame-Shift" class="external" target="_blank">Blame-shifting in earnings calls</a></h3>
+  <p>
+    As part of his capstone research at UT Austin, Feen studied the phenomenon of "blame-shifting" in <a href="https://en.wikipedia.org/wiki/Earnings_call" target="_blank">earnings call</a> transcripts — the hypothesis that firms disproportionately deploy <a href="https://en.wikipedia.org/wiki/Macroeconomics" target="_blank">macroeconomic</a> language to deflect responsibility for poor financial performance. The research involved a corpus of approximately 60,000 earnings call transcripts spanning 2010 to 2024.<sup class="ref"><a href="#ref10">[10]</a></sup>
+  </p>
+  <p>
+    Feen developed a custom macro-language dictionary organized into thematic categories and built an end-to-end <a href="https://en.wikipedia.org/wiki/Natural_language_processing" target="_blank">NLP</a> pipeline using <a href="https://en.wikipedia.org/wiki/BERT_(language_model)" target="_blank">FinBERT</a> fine-tuned on data labeled through <a href="https://en.wikipedia.org/wiki/Weak_supervision" target="_blank">weak supervision</a> via <a href="https://en.wikipedia.org/wiki/Llama_(language_model)" target="_blank">Llama</a>-based large language models. The pipeline incorporated <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf" target="_blank">TF-IDF</a> scoring, <a href="https://en.wikipedia.org/wiki/Fama%E2%80%93French_three-factor_model" target="_blank">Fama-French</a> industry classification, and a <a href="https://en.wikipedia.org/wiki/Abnormal_return" target="_blank">cumulative abnormal return</a> (CAR) event study methodology to measure market-level effects of blame-shifting behavior.<sup class="ref"><a href="#ref10">[10]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="snowflake-etl"><a href="https://github.com/julianlu03/Steam-Snowflake-Analytics" class="external" target="_blank">Snowflake ETL Pipeline for Steam Games</a></h3>
+  <p>
+    Feen co-developed a <a href="https://en.wikipedia.org/wiki/Extract,_transform,_load" target="_blank">ETL</a> pipeline for <a href="https://en.wikipedia.org/wiki/Steam_(service)" target="_blank">Steam</a> video game analytics using <a href="https://en.wikipedia.org/wiki/Snowflake_Inc." target="_blank">Snowflake</a>. The system employed a three-layer architecture — raw, transformed, and aggregated — to convert semi-structured gaming data into interactive analytical dashboards. The project also integrated AI-powered natural language querying via <a href="https://en.wikipedia.org/wiki/Snowflake_Inc." target="_blank">Snowflake Cortex</a>, allowing users to ask questions about the data in plain English.<sup class="ref"><a href="#ref12">[12]</a></sup>
+  </p>
+
+  <h3 class="section-heading" id="juris"><a href="https://github.com/JackFeen/Portfolio/blob/main/Zimbabwe_Consulting/EquipMozambique.pdf" class="external" target="_blank">Juris Law: International Market Entry &amp; Financial Consulting</a></h3>
+  <p>
+    Feen provided <a href="https://en.wikipedia.org/wiki/Management_consulting" target="_blank">consulting</a> services for Juris Law, a <a href="https://en.wikipedia.org/wiki/Mozambique" target="_blank">Mozambican</a> legal rights mobile application. He developed a scalable <a href="https://en.wikipedia.org/wiki/Nonprofit_organization" target="_blank">non-profit</a> business model projecting $200,000 in yearly cash flows and constructed a market entry strategy for <a href="https://en.wikipedia.org/wiki/Zimbabwe" target="_blank">Zimbabwe</a>, comparing legal frameworks across jurisdictions and analyzing effective marketing initiatives for the region.<sup class="ref"><a href="#ref13">[13]</a></sup>
+  </p>
+
+  <!-- EXTRACURRICULAR -->
+  <h2 class="section-heading" id="extracurricular">Extracurricular activities <span class="edit-link">[<a href="#">edit</a>]</span></h2>
+  <p>
+    Feen founded and served as president of the <b>Society of Sustainable Business</b> at UT Dallas from October 2023 to May 2025. Under his leadership, the organization launched <i>impactEarth</i>, UTD's first sustainability entrepreneurship competition, securing over $5,000 in sponsorships. The organization engaged more than 400 students through volunteering initiatives and educational events, including community clean-ups and speaker series. Feen oversaw a seven-officer board and more than 50 active members.<sup class="ref"><a href="#ref11">[11]</a></sup>
+  </p>
+
+  <!-- HONORS -->
+  <h2 class="section-heading" id="honors">Honors and awards <span class="edit-link">[<a href="#">edit</a>]</span></h2>
+  <table class="wikitable" style="width: 100%;">
+    <tr><th>Year</th><th>Award</th><th>Notes</th></tr>
+    <tr><td>2025</td><td>Summa Cum Laude</td><td>University of Texas at Dallas</td></tr>
+    <tr><td>2023, 2024</td><td>Ann and Jack Graves Foundation Scholarship</td><td>UTD merit-based scholarship</td></tr>
+    <tr><td>2022 - 2025</td><td>Academic Excellence Scholarship</td><td>UTD merit-based scholarship</td></tr>
+    <tr><td>2025</td><td>National Collegiate Consulting Championship</td><td>2nd place</td></tr>
+    <tr><td>2025</td><td>Dean's Cup</td><td>1st place</td></tr>
+    <tr><td>2025</td><td><a href="https://en.wikipedia.org/wiki/President%27s_Volunteer_Service_Award" target="_blank">President's Volunteer Service Award</a></td><td>National recognition</td></tr>
+  </table>
+
+  <!-- SKILLS -->
+  <h2 class="section-heading" id="skills">Technical proficiency <span class="edit-link">[<a href="#">edit</a>]</span></h2>
+  <p>
+    Feen's technical stack includes <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank">Python</a> (with libraries such as <a href="https://en.wikipedia.org/wiki/Pandas_(software)" target="_blank">Pandas</a>, <a href="https://en.wikipedia.org/wiki/NumPy" target="_blank">NumPy</a>, <a href="https://en.wikipedia.org/wiki/PyTorch" target="_blank">PyTorch</a>, and <a href="https://en.wikipedia.org/wiki/TensorFlow" target="_blank">TensorFlow</a>), <a href="https://en.wikipedia.org/wiki/R_(programming_language)" target="_blank">R</a>, <a href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank">Java</a>, <a href="https://en.wikipedia.org/wiki/SQL" target="_blank">SQL</a>, and advanced <a href="https://en.wikipedia.org/wiki/Microsoft_Excel" target="_blank">Microsoft Excel</a>. He has experience with <a href="https://en.wikipedia.org/wiki/Snowflake_Inc." target="_blank">Snowflake</a>, <a href="https://en.wikipedia.org/wiki/SAP" target="_blank">SAP</a>, <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank">HubSpot</a>, <a href="https://en.wikipedia.org/wiki/Apache_Hadoop" target="_blank">Hadoop</a>, <a href="https://en.wikipedia.org/wiki/Tableau_(software)" target="_blank">Tableau</a>, <a href="https://en.wikipedia.org/wiki/IBM_Cognos_Analytics" target="_blank">IBM Cognos</a>, and <a href="https://en.wikipedia.org/wiki/Azure_DevOps" target="_blank">Azure DevOps</a>.<sup class="ref"><a href="#ref3">[3]</a></sup>
+  </p>
+
+  <!-- REFERENCES -->
+  <h2 class="section-heading" id="references">References <span class="edit-link">[<a href="#">edit</a>]</span></h2>
+  <div class="reflist">
+    <ol>
+      <li id="ref1"><b>^</b> <a href="https://jackfeen.github.io" target="_blank">"Jack Feen – Portfolio"</a>. <i>jackfeen.github.io</i>. Retrieved April 14, 2026.</li>
+      <li id="ref2"><b>^</b> <a href="https://www.mccombs.utexas.edu/msba" target="_blank">"McCombs School of Business – MSBA Program"</a>. <i>University of Texas at Austin</i>. Retrieved April 14, 2026.</li>
+      <li id="ref3"><b>^</b> <a href="https://linkedin.com/in/jackafeen" target="_blank">"Jack Feen – Resume"</a>. <i>LinkedIn</i>. Retrieved April 14, 2026.</li>
+      <li id="ref4"><b>^</b> <a href="https://en.wikipedia.org/wiki/Lennox_International" target="_blank">"Lennox International"</a>. <i>lennoxinternational.com</i>. Retrieved April 14, 2026.</li>
+      <li id="ref5"><b>^</b> <a href="https://en.wikipedia.org/wiki/EssilorLuxottica" target="_blank">"EssilorLuxottica"</a>. <i>essilorluxottica.com</i>. Retrieved April 14, 2026.</li>
+      <li id="ref6"><b>^</b> "Vise – Investment Technology". <i>vise.com</i>. Retrieved April 14, 2026.</li>
+      <li id="ref7"><b>^</b> <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">"IBM"</a>. <i>ibm.com/careers</i>. Retrieved April 14, 2026.</li>
+      <li id="ref8"><b>^</b> <a href="https://www.linkedin.com/feed/update/urn:li:activity:7429232984848846848/" target="_blank">Feen, Jack (2026). "Connect 4 AI: CNN and Transformer Approaches"</a>. <i>LinkedIn</i>.</li>
+      <li id="ref9"><b>^</b> <a href="https://github.com/JackFeen/Portfolio/tree/main/Apartment_Reccomendation" target="_blank">Feen, Jack (2025). "Dwelling: Apartment Recommendation Engine"</a>. <i>GitHub</i>.</li>
+      <li id="ref10"><b>^</b> <a href="https://github.com/JackFeen/Portfolio/tree/main/Blame-Shift" target="_blank">Feen, Jack (2026). "Blame-Shifting in Earnings Call Transcripts"</a>. <i>McCombs School of Business Capstone Research</i>.</li>
+      <li id="ref11"><b>^</b> "Society of Sustainable Business – UTD". <i>utdallas.edu</i>. Retrieved April 14, 2026.</li>
+      <li id="ref12"><b>^</b> <a href="https://github.com/julianlu03/Steam-Snowflake-Analytics" target="_blank">Feen, Jack; Lu, Julian (2025). "Snowflake ETL Pipeline for Steam Games"</a>. <i>GitHub</i>.</li>
+      <li id="ref13"><b>^</b> <a href="https://github.com/JackFeen/Portfolio/blob/main/Zimbabwe_Consulting/EquipMozambique.pdf" target="_blank">Feen, Jack (2025). "Juris Law: International Market Entry Strategy"</a>. <i>GitHub</i>.</li>
+    </ol>
+  </div>
+
+  <!-- EXTERNAL LINKS -->
+  <h2 class="section-heading" id="external">External links <span class="edit-link">[<a href="#">edit</a>]</span></h2>
+  <ul>
+    <li><a href="https://linkedin.com/in/jackafeen" class="external" target="_blank">Jack Feen</a> on <a href="https://en.wikipedia.org/wiki/LinkedIn" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/jackfeen" class="external" target="_blank">Jack Feen</a> on <a href="https://en.wikipedia.org/wiki/GitHub" target="_blank">GitHub</a></li>
+  </ul>
+
+  <!-- CATEGORIES -->
+  <div class="catlinks">
+    <span class="catlinks-header">Categories:</span>
+    <a href="https://en.wikipedia.org/wiki/Category:Living_people" target="_blank">Living people</a> ·
+    <a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Austin" target="_blank">University of Texas at Austin alumni</a> ·
+    <a href="https://en.wikipedia.org/wiki/University_of_Texas_at_Dallas" target="_blank">University of Texas at Dallas alumni</a> ·
+    <a href="https://en.wikipedia.org/wiki/Data_science" target="_blank">American data scientists</a> ·
+    <a href="https://en.wikipedia.org/wiki/IBM" target="_blank">IBM employees</a> ·
+    <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank">Machine learning researchers</a> ·
+    <a href="https://en.wikipedia.org/wiki/Austin,_Texas" target="_blank">People from Austin, Texas</a> ·
+    <a href="https://en.wikipedia.org/wiki/Natural_language_processing" target="_blank">Natural language processing researchers</a>
+  </div>
+
+</div><!-- end panel-article -->
+
+
+<!-- ==============================
+     TALK TAB (Contact)
+     ============================== -->
+<div class="tab-panel" id="panel-talk">
+
+  <h1 class="page-title">Talk: Jack Alexander Feen</h1>
+  <div class="page-subtitle">From Feenipedia, the free encyclopedia</div>
+
+  <div class="talk-section">
+
+    <h2 class="section-heading">Get in touch</h2>
+    <p style="font-family: sans-serif; font-size: 13px; margin-bottom: 16px;">
+      This is the talk page for discussing the subject of this article. To contact Jack Feen directly, use the methods below.
+    </p>
+
+    <div class="contact-methods">
+      <div class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value"><a href="mailto:jaf5542@my.utexas.edu">jaf5542@my.utexas.edu</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">💼</div>
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-value"><a href="https://linkedin.com/in/jackafeen" target="_blank">linkedin.com/in/jackafeen</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">🌐</div>
+        <div class="contact-card-label">Website</div>
+        <div class="contact-card-value"><a href="https://jackfeen.github.io" target="_blank">jackfeen.github.io</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon">📱</div>
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-value"><a href="tel:+15125860523">(512) 586-0523</a></div>
+      </div>
+    </div>
+
+    <h2 class="section-heading">Discussion</h2>
+
+    <div class="talk-thread">
+      <span class="talk-author">Feenipedia Bot</span>
+      <span class="talk-timestamp">15:42, 14 April 2026 (UTC)</span>
+      <div class="talk-body">
+        Welcome to the talk page! This article has been automatically assessed as <b>high-importance</b>. Jack is actively looking to connect with professionals in product management, quantitative finance, and AI/ML research. Don't hesitate to reach out.
+      </div>
+    </div>
+
+    <div class="talk-thread">
+      <span class="talk-author">Resume Reviewer</span>
+      <span class="talk-timestamp">10:15, 10 April 2026 (UTC)</span>
+      <div class="talk-body">
+        Noting that this article's subject has a strong track record: <b>Summa Cum Laude</b> from UTD, competitive scholarships, and hands-on experience spanning eCommerce analytics, portfolio management, and deep learning research. The blend of business domain knowledge and technical ML skills is worth highlighting.
+      </div>
+    </div>
+
+    <div class="talk-thread">
+      <span class="talk-author">WikiProject AI</span>
+      <span class="talk-timestamp">08:30, 8 April 2026 (UTC)</span>
+      <div class="talk-body">
+        The "Blame-shifting in earnings calls" project is noteworthy for combining FinBERT fine-tuning with a 60K-document corpus and event study methodology. Recommend expanding coverage as the research is published.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end panel-talk -->
+
+
+<!-- ==============================
+     PERSONAL TAB
+     ============================== -->
+<div class="tab-panel" id="panel-personal">
+
+  <h1 class="page-title">Personal: Jack Alexander Feen</h1>
+  <div class="page-subtitle">From Feenipedia, the free encyclopedia</div>
+
+  <div class="personal-content">
+
+    <h2 class="section-heading">About</h2>
+    <p>
+      Thanks for visiting my personal page! Outside of my professional work, I am a musician and travelor. I've been playing the French horn since I was 11, and over time expanded to instruments like piano and trumpet. Fun fact: I spent my 2 summers performing with the Bluecoats Drum and Bugle Corps during my early college years.
+    </p>
+
+    <h2 class="section-heading">Music</h2>
+    <p>
+      French horn has been my primary instrument for over a decade. I've performed with various ensembles and have a deep appreciation for both classical and contemporary brass music.
+    </p>
+    <div class="music-gallery">
+      <div class="music-img-placeholder"><img src="fixpls/horn.jpg" alt="French Horn" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:2px;"></div>
+      <div class="music-img-placeholder"><img src="fixpls/bluecoats.JPG" alt="Bluecoats DBC" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:2px;"></div>
+    </div>
+
+    <h2 class="section-heading">Travel</h2>
+    <p>
+      My favorite part of traveling is getting to connect with new cutlures around the world. Below are some of my favorite places I've visited, with some photos highlighting special moments.
+    </p>
+    <div id="travel-map"></div>
+    <p class="map-caption">(Click a marker to view a photo and location name.)</p>
+
+  </div>
+
+</div><!-- end panel-personal -->
+
+</div><!-- end wiki-body -->
+
+
+<!-- ============ MINI-TOC ============ -->
+<div class="mini-toc" id="mini-toc">
+  <div class="mini-toc-title">Contents</div>
+  <a href="#education" class="mini-toc-link">Education</a>
+  <a href="#career" class="mini-toc-link">Career</a>
+  <a href="#lennox" class="mini-toc-link sub">Lennox International</a>
+  <a href="#essilor" class="mini-toc-link sub">EssilorLuxottica</a>
+  <a href="#vise" class="mini-toc-link sub">Vise</a>
+  <a href="#ibm" class="mini-toc-link sub">IBM</a>
+  <a href="#research" class="mini-toc-link">Research & projects</a>
+  <a href="#connect4" class="mini-toc-link sub">Connect 4 AI</a>
+  <a href="#dwelling" class="mini-toc-link sub">Dwelling</a>
+  <a href="#blame" class="mini-toc-link sub">Blame-shifting</a>
+  <a href="#snowflake-etl" class="mini-toc-link sub">Snowflake ETL</a>
+  <a href="#juris" class="mini-toc-link sub">Juris Law</a>
+  <a href="#extracurricular" class="mini-toc-link">Extracurricular</a>
+  <a href="#honors" class="mini-toc-link">Honors & awards</a>
+  <a href="#skills" class="mini-toc-link">Technical proficiency</a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="wiki-footer">
+  <p>This page was last edited on 14 April 2026, at 15:42 (UTC).</p>
+  <p>Text is available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 License</a>; additional terms may apply.</p>
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Wikipedia:Privacy_policy" target="_blank">Privacy policy</a> ·
+    <a onclick="switchTab('talk')">Contact Jack Feen</a> ·
+  </p>
+  <p style="margin-top: 8px; font-size: 10px; color: var(--text-secondary);">Feenipedia® — a creative portfolio by Jack Feen. Not affiliated with the Wikimedia Foundation.</p>
+</div>
+
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+(function() {
+
+  // ========== TAB SWITCHING ==========
+  let mapInitialized = false;
+  window.switchTab = function(tabName) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.wiki-tabs a').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + tabName).classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (tabName === 'personal' && !mapInitialized) {
+      mapInitialized = true;
+      setTimeout(initTravelMap, 100);
+    }
+  };
+
+  // ========== DARK MODE ==========
+  window.toggleDarkMode = function() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+    document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+    localStorage.setItem('feenipedia-theme', isDark ? 'light' : 'dark');
+  };
+
+  // Restore theme
+  const saved = localStorage.getItem('feenipedia-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('theme-icon').textContent = '☀️';
+    document.getElementById('theme-label').textContent = 'Light';
+  }
+
+  // ========== TOC TOGGLE ==========
+  document.getElementById('toc-toggle').addEventListener('click', function() {
+    const list = document.getElementById('toc-list');
+    const hidden = list.style.display === 'none';
+    list.style.display = hidden ? 'block' : 'none';
+    this.textContent = hidden ? '[hide]' : '[show]';
+  });
+
+  // ========== SEARCH WITH HIGHLIGHTING ==========
+  let highlights = [];
+  let currentHighlight = -1;
+
+  function clearHighlights() {
+    highlights = [];
+    currentHighlight = -1;
+    document.querySelectorAll('.search-highlight').forEach(el => {
+      const parent = el.parentNode;
+      parent.replaceChild(document.createTextNode(el.textContent), el);
+      parent.normalize();
+    });
+    document.getElementById('search-counter').classList.remove('visible');
+    document.getElementById('search-nav').classList.remove('visible');
+  }
+
+  function highlightText(node, term) {
+    if (node.nodeType === 3) { // text node
+      const idx = node.textContent.toLowerCase().indexOf(term.toLowerCase());
+      if (idx >= 0) {
+        const span = document.createElement('span');
+        span.className = 'search-highlight';
+        const matched = node.splitText(idx);
+        matched.splitText(term.length);
+        const clone = matched.cloneNode(true);
+        span.appendChild(clone);
+        matched.parentNode.replaceChild(span, matched);
+        highlights.push(span);
+        return true;
+      }
+    } else if (node.nodeType === 1 && node.childNodes.length && !/(script|style|svg)/i.test(node.tagName) && !node.classList.contains('search-highlight')) {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        if (highlightText(node.childNodes[i], term)) {
+          i++; // skip the newly created node
+        }
+      }
+    }
+    return false;
+  }
+
+  function updateCounter() {
+    const counter = document.getElementById('search-counter');
+    if (highlights.length > 0) {
+      counter.textContent = (currentHighlight + 1) + ' of ' + highlights.length;
+      counter.classList.add('visible');
+      document.getElementById('search-nav').classList.add('visible');
+    } else {
+      counter.textContent = '0 results';
+      counter.classList.add('visible');
+    }
+  }
+
+  function scrollToCurrent() {
+    highlights.forEach((h, i) => {
+      h.classList.toggle('search-highlight-active', i === currentHighlight);
+    });
+    if (highlights[currentHighlight]) {
+      highlights[currentHighlight].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  window.performSearch = function() {
+    clearHighlights();
+    const term = document.getElementById('search-input').value.trim();
+    if (term.length < 2) {
+      document.getElementById('search-counter').classList.remove('visible');
+      document.getElementById('search-nav').classList.remove('visible');
+      return;
+    }
+    // Make sure article tab is active
+    switchTab('article');
+    highlightText(document.getElementById('panel-article'), term);
+    if (highlights.length > 0) {
+      currentHighlight = 0;
+      scrollToCurrent();
+    }
+    updateCounter();
+  };
+
+  window.searchNext = function() {
+    if (highlights.length === 0) return;
+    currentHighlight = (currentHighlight + 1) % highlights.length;
+    scrollToCurrent();
+    updateCounter();
+  };
+
+  window.searchPrev = function() {
+    if (highlights.length === 0) return;
+    currentHighlight = (currentHighlight - 1 + highlights.length) % highlights.length;
+    scrollToCurrent();
+    updateCounter();
+  };
+
+  // ========== MINI-TOC (sticky floating) ==========
+  const tocBox = document.getElementById('toc-box');
+  const miniToc = document.getElementById('mini-toc');
+
+  const sectionIds = ['education','career','lennox','essilor','vise','ibm','research','connect4','dwelling','blame','snowflake-etl','juris','extracurricular','honors','skills'];
+
+  function updateMiniToc() {
+    if (!tocBox) return;
+    const tocRect = tocBox.getBoundingClientRect();
+    const articlePanel = document.getElementById('panel-article');
+    const isArticle = articlePanel.classList.contains('active');
+
+    if (isArticle && tocRect.bottom < 0) {
+      miniToc.classList.add('visible');
+    } else {
+      miniToc.classList.remove('visible');
+    }
+
+    // Highlight current section
+    let current = '';
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 120) current = id;
+      }
+    }
+    document.querySelectorAll('.mini-toc-link').forEach(link => {
+      link.classList.toggle('active-section', link.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', updateMiniToc, { passive: true });
+
+  // ========== RANDOM SECTION ==========
+  window.scrollToRandom = function() {
+    switchTab('article');
+    const sections = ['education','career','research','extracurricular','honors','skills'];
+    const randomId = sections[Math.floor(Math.random() * sections.length)];
+    const el = document.getElementById(randomId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // ========== TRAVEL MAP ==========
+  function initTravelMap() {
+    const mapContainer = document.getElementById('travel-map');
+    if (!mapContainer || mapContainer._leaflet_map) return;
+    const map = L.map('travel-map').setView([20, 10], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
+    fetch('photos/locations.json')
+      .then(r => r.json())
+      .then(locations => {
+        locations.forEach(loc => {
+          L.marker([loc.lat, loc.lng])
+            .addTo(map)
+            .bindPopup(
+              `<img src="photos/${encodeURIComponent(loc.image)}" alt="${loc.title}" onerror="this.style.display='none'">` +
+              `<div class="map-popup-title">${loc.title}</div>`
+            );
+        });
+      })
+      .catch(err => console.error('Error loading locations:', err));
+  }
+
+})();
+</script>
+
+</body>
+</html>
