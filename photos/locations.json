@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Jackson Hole / Wyoming Region",
+    "lat": 43.6078,
+    "lng": -110.8412,
+    "image": "IMG_3871.HEIC"
+  },
+  {
+    "title": "Tokyo, Japan",
+    "lat": 35.7143,
+    "lng": 139.7967,
+    "image": "IMG_7815.HEIC"
+  },
+  {
+    "title": "Canada / BC Panorama",
+    "lat": 50.4917,
+    "lng": -116.5897,
+    "image": "PXL_20260107_185324693_Original.JPG"
+  },
+  {
+    "title": "San Francisco, California",
+    "lat": 37.8021,
+    "lng": -122.4193,
+    "image": "IMG_4497.HEIC"
+  },
+  {
+    "title": "Singapore",
+    "lat": 1.3593,
+    "lng": 103.9896,
+    "image": "IMG_2007.HEIC"
+  },
+  {
+    "title": "Doha, Qatar",
+    "lat": 25.2697,
+    "lng": 51.6105,
+    "image": "IMG_2467.HEIC"
+  },
+  {
+    "title": "Dallas, Texas",
+    "lat": 32.796,
+    "lng": -96.8284,
+    "image": "IMG_4329.HEIC"
+  },
+  {
+    "title": "Sydney, Australia",
+    "lat": -33.858,
+    "lng": 151.21,
+    "image": "IMG_3397.HEIC"
+  },
+  {
+    "title": "Bangkok, Thailand",
+    "lat": 13.7563,
+    "lng": 100.5018,
+    "image": "IMG_4557.HEIC"
+  },
+  {
+    "title": "Singapore (Marina Bay area)",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "image": "IMG_4597.HEIC"
+  },
+  {
+    "title": "Interlaken, Switzerland",
+    "lat": 46.6863,
+    "lng": 7.8632,
+    "image": "DSC01319.JPG"
+  },
+  {
+    "title": "Taj Mahal, India",
+    "lat": 27.1751,
+    "lng": 78.0421,
+    "image": "DSC01330.jpeg"
+  },
+  {
+    "title": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "image": "DSC01680.jpeg"
+  },
+  {
+    "title": "Nairobi National Park, Kenya",
+    "lat": -1.3733,
+    "lng": 36.858,
+    "image": "DSC05532.jpeg"
+  },
+  {
+    "title": "Kigali, Rwanda",
+    "lat": -1.9706,
+    "lng": 30.1044,
+    "image": "DSC07663.JPG"
+  },
+  {
+    "title": "Kathmandu, Nepal",
+    "lat": 27.7172,
+    "lng": 85.324,
+    "image": "DSC08253.jpeg"
+  },
+  {
+    "title": "Colonia del Sacramento, Uruguay",
+    "lat": -34.471,
+    "lng": -57.8443,
+    "image": "DSC09389.JPG"
+  },
+  {
+    "title": "Austin, Texas",
+    "lat": 30.2671,
+    "lng": -97.7613,
+    "image": "IMG_1144.JPG"
+  },
+  {
+    "title": "Frankfurt, Germany",
+    "lat": 50.1088,
+    "lng": 8.6819,
+    "image": "IMG_7412.heic"
+  },
+  {
+    "title": "Pompeii, Italy",
+    "lat": 40.628,
+    "lng": 14.4896,
+    "image": "20220316_180735_Original.JPG"
+  }
+]
